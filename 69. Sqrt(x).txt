@@ -1,0 +1,15 @@
+class Solution {
+    public int mySqrt(int x) {
+        if (x < 2) return x;
+
+        double guess = x;  
+        double prev = 0;
+
+        while (Math.abs(guess - prev) > 1e-6) {
+            prev = guess;
+            guess = (guess + x / guess) / 2.0;
+        }
+
+        return (int) Math.floor(guess);
+    }
+}
