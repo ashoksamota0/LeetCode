@@ -1,3 +1,4 @@
+//Java code
 class Solution {
     public int[] twoSum(int[] nums, int target) {
         // HashMap to store value -> index
@@ -18,4 +19,5 @@ class Solution {
         // Problem guarantees one valid answer, but return empty for safety
         return new int[] {};
     }
+
 }
