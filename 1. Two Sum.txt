@@ -1,4 +1,4 @@
-//Java code
+//Java code by Ashok
 class Solution {
     public int[] twoSum(int[] nums, int target) {
         // HashMap to store value -> index
@@ -21,3 +21,4 @@ class Solution {
     }
 
 }
+
