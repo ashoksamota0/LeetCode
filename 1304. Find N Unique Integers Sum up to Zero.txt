@@ -1,0 +1,19 @@
+class Solution {
+    public int[] sumZero(int n) {
+        int[] ans = new int[n];
+        int idx = 0;
+
+        // add pairs (1, -1), (2, -2), ...
+        for (int i = 1; i <= n / 2; i++) {
+            ans[idx++] = i;
+            ans[idx++] = -i;
+        }
+
+        // if n is odd, put a 0 in the remaining slot
+        if ((n & 1) == 1) {
+            ans[idx] = 0;
+        }
+
+        return ans;
+    }
+}
