@@ -1,4 +1,4 @@
-//Java Code:-
+//Solution Java Code:-
 class Solution {
     public int maxProfit(int[] prices) {
         int minPrice = prices[0], maxProfit=0;
@@ -13,3 +13,4 @@ class Solution {
     }
 
 }
+
