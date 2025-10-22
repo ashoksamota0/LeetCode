@@ -1,3 +1,4 @@
+//Java solution
 class Solution {
     public int pivotInteger(int n) {
         int total = n * (n + 1) / 2;
@@ -8,4 +9,5 @@ class Solution {
         }
         return -1;
     }
+
 }
