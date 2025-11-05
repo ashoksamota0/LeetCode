@@ -1,0 +1,33 @@
+class Solution {
+    public int subarraySum(int[] nums, int k) {
+        
+        HashMap<Integer, Integer> hmap = new HashMap<>();
+
+        int count = 0;
+        int sum = 0;
+
+        for(int i=0; i<nums.length; i++){
+            sum += nums[i];
+
+            if(sum == k){
+                count++;
+            }
+
+            if(hmap.containsKey(sum-k)){
+                count += hmap.get(sum-k);
+            }
+            
+            if(hmap.containsKey(sum)){
+                int oldFreq = hmap.get(sum);
+                int newFreq = oldFreq + 1;
+
+                hmap.put(sum, newFreq);
+            }
+            else{
+                hmap.put(sum, 1);
+            }
+        }
+
+        return count;
+    }
+}
