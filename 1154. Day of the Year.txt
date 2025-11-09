@@ -1,4 +1,4 @@
-//Java code:-
+//Java:-
 class Solution {
     public int dayOfYear(String date) {
         String[] parts = date.split("-");
@@ -18,3 +18,4 @@ class Solution {
     }
 
 }
+
