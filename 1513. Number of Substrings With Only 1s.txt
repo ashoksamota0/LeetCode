@@ -1,0 +1,42 @@
+class Solution {
+    public int numSub(String s) {
+        long count = 0;
+        long consecutiveOnes = 0;
+        long mod = 1_000_000_007;
+
+        for (char c : s.toCharArray()) {
+            if (c == '1') {
+                consecutiveOnes++;
+            } else {
+                class Solution {
+    public int numSub(String s) {
+        long count = 0;
+        long consecutiveOnes = 0;
+        long mod = 1_000_000_007;
+
+        for (char c : s.toCharArray()) {
+            if (c == '1') {
+                consecutiveOnes++;
+            } else {
+                // add all substrings from the previous run of 1s
+                count = (count + (consecutiveOnes * (consecutiveOnes + 1) / 2)) % mod;
+                consecutiveOnes = 0;
+            }
+        }
+
+        count = (count + (consecutiveOnes * (consecutiveOnes + 1) / 2)) % mod;
+
+        return (int) count;
+    }
+}
+                count = (count + (consecutiveOnes * (consecutiveOnes + 1) / 2)) % mod;
+                consecutiveOnes = 0;
+            }
+        }
+
+        // Add the last run if string ends with '1'
+        count = (count + (consecutiveOnes * (consecutiveOnes + 1) / 2)) % mod;
+
+        return (int) count;
+    }
+}
