@@ -1,0 +1,32 @@
+import java.util.*;
+
+class Solution {
+    public int intersectionSizeTwo(int[][] intervals) {
+        Arrays.sort(intervals, (a, b) -> 
+            a[1] != b[1] ? a[1] - b[1] : b[0] - a[0]
+        );
+
+        int res = 0;
+        int p1 = -1, p2 = -1;
+
+        for (int[] in : intervals) {
+            int l = in[0], r = in[1];
+
+            boolean useP1 = p1 >= l;
+            boolean useP2 = p2 >= l;
+
+            if (useP1 && useP2) continue;
+
+            if (useP2) {
+                res++;
+                p1 = p2;
+                p2 = r;
+            } else {
+                res += 2;
+                p1 = r - 1;
+                p2 = r;
+            }
+        }
+        return res;
+    }
+}
