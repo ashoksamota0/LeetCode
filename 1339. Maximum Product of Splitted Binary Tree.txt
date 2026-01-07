@@ -1,0 +1,28 @@
+class Solution {
+    long total = 0;
+    long max = 0;
+    static final int MOD = 1000000007;
+
+    public int maxProduct(TreeNode root) {
+        totalSum(root);
+        dfs(root);
+        return (int)(max % MOD);
+    }
+
+    long totalSum(TreeNode node) {
+        if (node == null) return 0;
+        total += node.val;
+        totalSum(node.left);
+        totalSum(node.right);
+        return total;
+    }
+
+    long dfs(TreeNode node) {
+        if (node == null) return 0;
+        long left = dfs(node.left);
+        long right = dfs(node.right);
+        long sum = left + right + node.val;
+        max = Math.max(max, sum * (total - sum));
+        return sum;
+    }
+}
