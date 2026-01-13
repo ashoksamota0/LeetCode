@@ -1,0 +1,28 @@
+class Solution {
+  public double separateSquares(int[][] squares) {
+    final double halfArea =
+        java.util.Arrays.stream(squares).mapToDouble(sq -> (double) sq[2] * sq[2]).sum() / 2;
+    java.util.List<int[]> events = new java.util.ArrayList<>();
+    for (int[] square : squares) {
+      int y = square[1];
+      int l = square[2];
+      events.add(new int[] {y, 1, l});
+      events.add(new int[] {y + l, 0, l});
+    }
+    events.sort(java.util.Comparator.comparingInt(a -> a[0]));
+    double area = 0;
+    int width = 0;
+    int prevY = 0;
+    for (int[] e : events) {
+      int y = e[0];
+      int l = e[2];
+      double gain = (double) width * (y - prevY);
+      if (area + gain >= halfArea)
+        return prevY + (halfArea - area) / width;
+      area += gain;
+      width += e[1] == 1 ? l : -l;
+      prevY = y;
+    }
+    throw new IllegalArgumentException();
+  }
+}
