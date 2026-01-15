@@ -1,0 +1,23 @@
+import java.util.*;
+
+class Solution {
+    public int maximizeSquareHoleArea(int n, int m, int[] hBars, int[] vBars) {
+        Arrays.sort(hBars);
+        Arrays.sort(vBars);
+        int maxH = longest(hBars);
+        int maxV = longest(vBars);
+        int side = Math.min(maxH + 1, maxV + 1);
+        return side * side;
+    }
+
+    private int longest(int[] a) {
+        int best = 0, cur = 0, prev = -1;
+        for (int x : a) {
+            if (x == prev + 1) cur++;
+            else cur = 1;
+            best = Math.max(best, cur);
+            prev = x;
+        }
+        return best;
+    }
+}
