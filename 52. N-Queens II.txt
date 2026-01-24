@@ -1,0 +1,19 @@
+class Solution {
+    public int totalNQueens(int n) {
+        return dfs(0, n, new boolean[n], new boolean[2 * n], new boolean[2 * n]);
+    }
+
+    int dfs(int r, int n, boolean[] col, boolean[] d1, boolean[] d2) {
+        if (r == n) return 1;
+        int count = 0;
+        for (int c = 0; c < n; c++) {
+            int id1 = r - c + n;
+            int id2 = r + c;
+            if (col[c] || d1[id1] || d2[id2]) continue;
+            col[c] = d1[id1] = d2[id2] = true;
+            count += dfs(r + 1, n, col, d1, d2);
+            col[c] = d1[id1] = d2[id2] = false;
+        }
+        return count;
+    }
+}
