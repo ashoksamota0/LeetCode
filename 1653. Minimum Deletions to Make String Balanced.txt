@@ -1,0 +1,14 @@
+class Solution {
+    public int minimumDeletions(String s) {
+        int del = 0, b = 0;
+
+        for (char c : s.toCharArray()) {
+            if (c == 'b') {
+                b++;
+            } else {
+                del = Math.min(del + 1, b);
+            }
+        }
+        return del;
+    }
+}1653. Minimum Deletions to Make String Balanced1653. Minimum Deletions to Make String Balanced
