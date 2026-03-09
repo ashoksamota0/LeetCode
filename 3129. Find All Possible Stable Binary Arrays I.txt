@@ -1,0 +1,30 @@
+class Solution {
+    int mod = 1_000_000_007;
+    Integer[][][] memo;
+
+    public int numberOfStableArrays(int zero, int one, int limit) {
+        memo = new Integer[zero + 1][one + 1][2];
+        long res = (dfs(zero, one, limit, 0) + dfs(zero, one, limit, 1)) % mod;
+        return (int) res;
+    }
+
+    long dfs(int z, int o, int limit, int last) {
+        if (z == 0 && o == 0) return 1;
+        if (memo[z][o][last] != null) return memo[z][o][last];
+
+        long ans = 0;
+
+        if (last == 0) {
+            for (int k = 1; k <= Math.min(limit, z); k++) {
+                ans = (ans + dfs(z - k, o, limit, 1)) % mod;
+            }
+        } else {
+            for (int k = 1; k <= Math.min(limit, o); k++) {
+                ans = (ans + dfs(z, o - k, limit, 0)) % mod;
+            }
+        }
+
+        memo[z][o][last] = (int) ans;
+        return ans;
+    }
+}
