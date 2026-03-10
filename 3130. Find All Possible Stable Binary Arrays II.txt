@@ -1,0 +1,26 @@
+class Solution {
+    int mod = 1_000_000_007;
+
+    public int numberOfStableArrays(int zero, int one, int limit) {
+        long[][][] dp = new long[zero + 1][one + 1][2];
+
+        for (int i = 1; i <= Math.min(limit, zero); i++) dp[i][0][0] = 1;
+        for (int j = 1; j <= Math.min(limit, one); j++) dp[0][j][1] = 1;
+
+        for (int z = 0; z <= zero; z++) {
+            for (int o = 0; o <= one; o++) {
+                if (z == 0 && o == 0) continue;
+
+                for (int k = 1; k <= Math.min(limit, z); k++) {
+                    dp[z][o][0] = (dp[z][o][0] + dp[z - k][o][1]) % mod;
+                }
+
+                for (int k = 1; k <= Math.min(limit, o); k++) {
+                    dp[z][o][1] = (dp[z][o][1] + dp[z][o - k][0]) % mod;
+                }
+            }
+        }
+
+        return (int)((dp[zero][one][0] + dp[zero][one][1]) % mod);
+    }
+}
