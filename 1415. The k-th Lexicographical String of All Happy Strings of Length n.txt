@@ -1,0 +1,22 @@
+import java.util.*;
+
+class Solution {
+    public String getHappyString(int n, int k) {
+        List<String> res = new ArrayList<>();
+        dfs(n, "", res);
+        return k > res.size() ? "" : res.get(k - 1);
+    }
+
+    void dfs(int n, String curr, List<String> res) {
+        if (curr.length() == n) {
+            res.add(curr);
+            return;
+        }
+
+        for (char c : new char[]{'a','b','c'}) {
+            if (curr.length() == 0 || curr.charAt(curr.length() - 1) != c) {
+                dfs(n, curr + c, res);
+            }
+        }
+    }
+}
