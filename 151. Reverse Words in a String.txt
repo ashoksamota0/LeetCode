@@ -1,1 +1,33 @@
 //Java code
+class Solution {
+    public String reverseWords(String s) {
+        char[] arr = s.toCharArray();
+        reverse(arr, 0, arr.length - 1);
+
+        int i = 0, n = arr.length;
+        StringBuilder sb = new StringBuilder();
+
+        while (i < n) {
+            if (arr[i] == ' ') {
+                i++;
+                continue;
+            }
+            int j = i;
+            while (j < n && arr[j] != ' ') j++;
+            reverse(arr, i, j - 1);
+            if (sb.length() > 0) sb.append(" ");
+            sb.append(arr, i, j - i);
+            i = j;
+        }
+
+        return sb.toString();
+    }
+
+    void reverse(char[] arr, int l, int r) {
+        while (l < r) {
+            char temp = arr[l];
+            arr[l++] = arr[r];
+            arr[r--] = temp;
+        }
+    }
+}
