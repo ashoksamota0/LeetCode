@@ -1,3 +1,4 @@
+//Java code
 class Solution {
     public int maxProduct(int[] nums) {
         int max = nums[0], min = nums[0], ans = nums[0];
