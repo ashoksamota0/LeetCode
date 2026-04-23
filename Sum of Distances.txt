@@ -1,1 +1,39 @@
 //Java code
+import java.util.*;
+
+class Solution {
+    public long[] distance(int[] nums) {
+        int n = nums.length;
+        long[] res = new long[n];
+
+        Map<Integer, Long> count = new HashMap<>();
+        Map<Integer, Long> sum = new HashMap<>();
+
+        for (int i = 0; i < n; i++) {
+            int v = nums[i];
+            long c = count.getOrDefault(v, 0L);
+            long s = sum.getOrDefault(v, 0L);
+
+            res[i] += i * c - s;
+
+            count.put(v, c + 1);
+            sum.put(v, s + i);
+        }
+
+        count.clear();
+        sum.clear();
+
+        for (int i = n - 1; i >= 0; i--) {
+            int v = nums[i];
+            long c = count.getOrDefault(v, 0L);
+            long s = sum.getOrDefault(v, 0L);
+
+            res[i] += s - i * c;
+
+            count.put(v, c + 1);
+            sum.put(v, s + i);
+        }
+
+        return res;
+    }
+}
