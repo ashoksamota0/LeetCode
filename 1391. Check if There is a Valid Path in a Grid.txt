@@ -1,1 +1,40 @@
 //Java code
+class Solution {
+    int[][][] dirs = {
+        {},
+        {{0, -1}, {0, 1}},
+        {{-1, 0}, {1, 0}},
+        {{0, -1}, {1, 0}},
+        {{0, 1}, {1, 0}},
+        {{0, -1}, {-1, 0}},
+        {{0, 1}, {-1, 0}}
+    };
+
+    public boolean hasValidPath(int[][] grid) {
+        int m = grid.length, n = grid[0].length;
+        boolean[][] vis = new boolean[m][n];
+        return dfs(grid, 0, 0, vis);
+    }
+
+    boolean dfs(int[][] grid, int x, int y, boolean[][] vis) {
+        int m = grid.length, n = grid[0].length;
+        if (x == m - 1 && y == n - 1) return true;
+
+        vis[x][y] = true;
+
+        for (int[] d : dirs[grid[x][y]]) {
+            int nx = x + d[0];
+            int ny = y + d[1];
+
+            if (nx < 0 || ny < 0 || nx >= m || ny >= n || vis[nx][ny]) continue;
+
+            for (int[] back : dirs[grid[nx][ny]]) {
+                if (nx + back[0] == x && ny + back[1] == y) {
+                    if (dfs(grid, nx, ny, vis)) return true;
+                }
+            }
+        }
+
+        return false;
+    }
+}
