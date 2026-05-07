@@ -1,1 +1,71 @@
 //Java code
+import java.util.*;
+
+public class Solution {
+    public int[] maxValue(int[] nums) {
+        int n = nums.length;
+        List<Integer>[] adj = new ArrayList[n];
+        for (int i = 0; i < n; i++) adj[i] = new ArrayList<>();
+
+        // Forward: To jump to a smaller value, 
+        // jumping to the "Next Smaller Element" is sufficient to start a chain.
+        Deque<Integer> stack = new ArrayDeque<>();
+        for (int i = 0; i < n; i++) {
+            while (!stack.isEmpty() && nums[stack.peek()] > nums[i]) {
+                int prev = stack.pop();
+                adj[prev].add(i);
+            }
+            stack.push(i);
+        }
+
+        // Backward: To jump to a larger value, 
+        // jumping to the "Previous Greater Element" is sufficient.
+        stack.clear();
+        for (int i = 0; i < n; i++) {
+            while (!stack.isEmpty() && nums[stack.peek()] < nums[i]) {
+                int prev = stack.pop();
+                adj[i].add(prev); // Note: i is current, prev is to the left
+            }
+            stack.push(i);
+        }
+
+        // The "Next Smaller" and "Previous Greater" logic covers the bounds.
+        // Now find max reachable via Reverse BFS.
+        int[] result = new int[n];
+        Integer[] indices = new Integer[n];
+        for (int i = 0; i < n; i++) indices[i] = i;
+        Arrays.sort(indices, (a, b) -> Integer.compare(nums[b], nums[a]));
+
+        List<Integer>[] revAdj = new ArrayList[n];
+        for (int i = 0; i < n; i++) revAdj[i] = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            for (int neighbor : adj[i]) {
+                revAdj[neighbor].add(i);
+            }
+        }
+
+        boolean[] visited = new boolean[n];
+        for (int idx : indices) {
+            if (visited[idx]) continue;
+            
+            Queue<Integer> queue = new LinkedList<>();
+            queue.add(idx);
+            int currentMax = nums[idx];
+            visited[idx] = true;
+            
+            while (!queue.isEmpty()) {
+                int curr = queue.poll();
+                result[curr] = currentMax;
+                
+                for (int canReachMe : revAdj[curr]) {
+                    if (!visited[canReachMe]) {
+                        visited[canReachMe] = true;
+                        queue.add(canReachMe);
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+}
