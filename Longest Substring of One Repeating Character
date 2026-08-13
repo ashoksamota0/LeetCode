@@ -1,1 +1,92 @@
+class Solution {
+    public int[] longestRepeating(String s, String queryCharacters, int[] queryIndices) {
+        int n = s.length();
 
+        char[] arr = s.toCharArray();
+        int[] tree = new int[4 * n];
+
+        build(1, 0, n - 1, arr, tree);
+
+        int[] ans = new int[queryIndices.length];
+
+        for (int i = 0; i < queryIndices.length; i++) {
+            int index = queryIndices[i];
+            arr[index] = queryCharacters.charAt(i);
+
+            update(1, 0, n - 1, index, arr[index], tree, arr);
+
+            ans[i] = tree[1];
+        }
+
+        return ans;
+    }
+
+    private void build(int node, int left, int right, char[] arr, int[] tree) {
+        if (left == right) {
+            tree[node] = 1;
+            return;
+        }
+
+        int mid = left + (right - left) / 2;
+
+        build(node * 2, left, mid, arr, tree);
+        build(node * 2 + 1, mid + 1, right, arr, tree);
+
+        tree[node] = Math.max(tree[node * 2], tree[node * 2 + 1]);
+
+        int count = 1;
+
+        int i = mid;
+        while (i >= left && arr[i] == arr[mid]) {
+            i--;
+        }
+
+        int j = mid + 1;
+        while (j <= right && arr[j] == arr[mid]) {
+            j++;
+        }
+
+        count = Math.max(count, mid - i);
+        count = Math.max(count, j - mid - 1);
+
+        if (arr[mid] == arr[mid + 1] && mid + 1 <= right) {
+            count = Math.max(count, mid - i + j - mid - 1);
+        }
+
+        tree[node] = Math.max(tree[node], count);
+    }
+
+    private void update(int node, int left, int right, int index,
+                       char value, int[] tree, char[] arr) {
+        if (left == right) {
+            tree[node] = 1;
+            return;
+        }
+
+        int mid = left + (right - left) / 2;
+
+        if (index <= mid) {
+            update(node * 2, left, mid, index, value, tree, arr);
+        } else {
+            update(node * 2 + 1, mid + 1, right, index, value, tree, arr);
+        }
+
+        tree[node] = Math.max(tree[node * 2], tree[node * 2 + 1]);
+
+        int l = mid;
+        int r = mid + 1;
+
+        while (l >= left && arr[l] == arr[index]) {
+            l--;
+        }
+
+        while (r <= right && arr[r] == arr[index]) {
+            r++;
+        }
+
+        if (arr[mid] == arr[mid + 1]) {
+            tree[node] = Math.max(tree[node],
+                    mid - l + r - mid - 1);
+        }
+    }
+}
