@@ -1,1 +1,73 @@
+class Solution {
+    public String lexGreaterPermutation(String s, String target) {
+        int n = s.length();
+        int[] count = new int[26];
 
+        for (char c : s.toCharArray()) {
+            count[c - 'a']++;
+        }
+
+        String ans = build(s, target, count, 0, false);
+
+        return ans == null ? "" : ans;
+    }
+
+    private String build(String s, String target, int[] count,
+                         int index, boolean greater) {
+        if (index == s.length()) {
+            return greater ? "" : null;
+        }
+
+        int start = target.charAt(index) - 'a';
+
+        if (greater) {
+            for (int c = 0; c < 26; c++) {
+                if (count[c] > 0) {
+                    count[c]--;
+
+                    String suffix = build(s, target, count, index + 1, true);
+
+                    if (suffix != null) {
+                        return (char) ('a' + c) + suffix;
+                    }
+
+                    count[c]++;
+                }
+            }
+
+            return null;
+        }
+
+        for (int c = start; c < 26; c++) {
+            if (count[c] == 0) {
+                continue;
+            }
+
+            count[c]--;
+
+            if (c > start) {
+                StringBuilder result = new StringBuilder();
+                result.append((char) ('a' + c));
+
+                for (int x = 0; x < 26; x++) {
+                    while (count[x] > 0) {
+                        result.append((char) ('a' + x));
+                        count[x]--;
+                    }
+                }
+
+                return result.toString();
+            }
+
+            String suffix = build(s, target, count, index + 1, false);
+
+            if (suffix != null) {
+                return (char) ('a' + c) + suffix;
+            }
+
+            count[c]++;
+        }
+
+        return null;
+    }
+}
