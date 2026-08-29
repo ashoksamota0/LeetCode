@@ -1,1 +1,37 @@
+import java.util.*;
 
+class Solution {
+    public int[] lexicographicallySmallestArray(int[] nums, int limit) {
+        int n = nums.length;
+
+        Integer[] index = new Integer[n];
+
+        for (int i = 0; i < n; i++) {
+            index[i] = i;
+        }
+
+        Arrays.sort(index, (a, b) -> Integer.compare(nums[a], nums[b]));
+
+        int[] ans = new int[n];
+
+        for (int i = 0; i < n; ) {
+            int j = i + 1;
+
+            while (j < n &&
+                   (long) nums[index[j]] - nums[index[j - 1]] <= limit) {
+                j++;
+            }
+
+            Integer[] positions = Arrays.copyOfRange(index, i, j);
+            Arrays.sort(positions);
+
+            for (int k = 0; k < positions.length; k++) {
+                ans[positions[k]] = nums[index[i + k]];
+            }
+
+            i = j;
+        }
+
+        return ans;
+    }
+}
